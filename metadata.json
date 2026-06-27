@@ -1,0 +1,6 @@
+{
+  "name": "CiviQ",
+  "description": "A mobile-first civic issue reporting and monitoring application for Nayagaon, Punjab, India. Features language localization (English/Hindi/Punjabi), automated Gemini AI analysis (severity assessment, category extraction), community validations, and real-time dashboard tracking.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

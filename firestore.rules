@@ -1,0 +1,105 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Global safety net - Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return request.auth.token.email_verified == true;
+    }
+
+    function isOwner(email) {
+      return isSignedIn() && (
+        !request.auth.token.keys().contains('email') || 
+        request.auth.token.email == email
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // --- User profile validation and authorization rules ---
+    match /users/{email} {
+      allow read: if isSignedIn();
+      allow create, update: if isOwner(email) && isValidUserProfile(request.resource.data);
+    }
+
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['email', 'name', 'avatar', 'wardId', 'lang', 'badges'])
+        && data.keys().size() == 6
+        && data.email is string
+        && data.name is string && data.name.size() <= 150
+        && data.avatar is string && data.avatar.size() <= 500
+        && data.wardId is int && data.wardId >= 1 && data.wardId <= 21
+        && data.lang is string && (data.lang == 'English' || data.lang == 'Hindi' || data.lang == 'Punjabi')
+        && data.badges is list;
+    }
+
+    // --- Issues validation and authorization rules ---
+    match /issues/{issueId} {
+      allow read: if isSignedIn();
+      
+      // Permit creation if the reporter matches the active authenticated email or user is an anonymous simulator
+      allow create: if isSignedIn() 
+        && isValidId(issueId)
+        && isValidIssue(request.resource.data)
+        && (
+          !request.auth.token.keys().contains('email') ||
+          request.resource.data.reporter.email == request.auth.token.email ||
+          issueId == 'issue-1' ||
+          issueId == 'issue-2'
+        );
+
+      // Permit updating specific properties for verifying, commenting, or status correction
+      allow update: if isSignedIn()
+        && isValidIssue(request.resource.data)
+        && (
+          // Action 1: Toggling Community Verification (verification array or status changes)
+          request.resource.data.diff(resource.data).affectedKeys().hasAny(['verifiedBy', 'status']) ||
+          // Action 2: Posting Comments (comments array changes)
+          request.resource.data.diff(resource.data).affectedKeys().hasAny(['comments']) ||
+          // Action 3: Status Transition (e.g. municipal resolution / reporting status lock)
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        );
+
+      allow delete: if false; // Deletions of community civic damage logs is disabled for trace retention
+    }
+
+    function isValidIssue(data) {
+      return data.keys().hasAll([
+        'id', 'title', 'description', 'category', 'severity', 'status', 'wardId', 'wardName', 
+        'gps', 'image', 'summary', 'recommendation', 'reporter', 'verifiedBy', 'createdAt', 'comments'
+      ])
+        && data.keys().size() == 16
+        && data.id is string
+        && data.title is string && data.title.size() <= 200
+        && data.description is string && data.description.size() <= 2000
+        && data.category is string && data.category.size() <= 100
+        && data.severity is string && (data.severity == 'Low' || data.severity == 'Medium' || data.severity == 'High' || data.severity == 'Critical')
+        && data.status is string && (data.status == 'Reported' || data.status == 'Community Verified' || data.status == 'In Progress' || data.status == 'Resolved')
+        && data.wardId is int && data.wardId >= 1 && data.wardId <= 21
+        && data.wardName is string && data.wardName.size() <= 100
+        && data.gps is map
+        && (data.gps.latitude is int || data.gps.latitude is float) && (data.gps.longitude is int || data.gps.longitude is float)
+        && data.image is string
+        && data.summary is string && data.summary.size() <= 1000
+        && data.recommendation is string && data.recommendation.size() <= 1000
+        && data.reporter is map
+        && data.reporter.email is string
+        && data.reporter.name is string
+        && data.reporter.avatar is string
+        && data.verifiedBy is list
+        && data.createdAt is string
+        && data.comments is list;
+    }
+  }
+}

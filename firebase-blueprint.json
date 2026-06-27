@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Represents a resident profile in Nayagaon.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "avatar": { "type": "string" },
+        "wardId": { "type": "integer" },
+        "lang": { "type": "string" },
+        "badges": { "type": "array" }
+      },
+      "required": ["email", "name", "avatar", "wardId", "lang", "badges"]
+    },
+    "GPSLocation": {
+      "title": "GPSLocation",
+      "description": "GPS coordinates of the civic issue.",
+      "type": "object",
+      "properties": {
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" }
+      },
+      "required": ["latitude", "longitude"]
+    },
+    "Reporter": {
+      "title": "Reporter",
+      "description": "Profile details of the user who reported the issue.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "avatar": { "type": "string" }
+      },
+      "required": ["name", "email", "avatar"]
+    },
+    "CivicComment": {
+      "title": "CivicComment",
+      "description": "A validation note or user comment posted on a reported issue.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userName": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userName", "userEmail", "text", "createdAt"]
+    },
+    "CivicIssue": {
+      "title": "CivicIssue",
+      "description": "Represents a community reported civic problem in Nayagaon.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "severity": { "type": "string" },
+        "status": { "type": "string" },
+        "wardId": { "type": "integer" },
+        "wardName": { "type": "string" },
+        "gps": { "$ref": "#/entities/GPSLocation" },
+        "image": { "type": "string" },
+        "summary": { "type": "string" },
+        "recommendation": { "type": "string" },
+        "reporter": { "$ref": "#/entities/Reporter" },
+        "verifiedBy": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "comments": { "type": "array" }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "category",
+        "severity",
+        "status",
+        "wardId",
+        "wardName",
+        "gps",
+        "image",
+        "summary",
+        "recommendation",
+        "reporter",
+        "verifiedBy",
+        "createdAt",
+        "comments"
+      ]
+    }
+  },
+  "firestore": {
+    "users/{email}": {
+      "schema": "UserProfile",
+      "description": "Stores Nayagaon resident profiles indexed by their authenticated email."
+    },
+    "issues/{issueId}": {
+      "schema": "CivicIssue",
+      "description": "Stores user reported civic issues and details."
+    }
+  }
+}
