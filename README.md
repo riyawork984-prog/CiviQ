@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="./banner.png" alt="CiviQ Banner" width="100%">
+</p>
+
+
 # 🚀 CiviQ
 
 ## AI-Powered Hyperlocal Civic Issue Reporting Platform
