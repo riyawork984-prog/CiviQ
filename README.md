@@ -1,50 +1,59 @@
-# CiviQ – AI-Powered Hyperlocal Civic Issue Reporting Platform
+# 🚀 CiviQ
 
-## Overview
+## AI-Powered Hyperlocal Civic Issue Reporting Platform
 
-CiviQ is an AI-powered civic complaint management platform that enables citizens to report local issues such as potholes, garbage overflow, water leakage, and damaged streetlights. The platform uses Google Gemini AI to summarize reports, detect fake complaints, analyze uploaded images, and prioritize issues for municipal authorities.
+CiviQ is an intelligent civic complaint management platform that empowers citizens to report local issues such as potholes, garbage overflow, water leakage, damaged streetlights, and exposed power lines. The platform leverages Google Gemini AI to analyze complaints, detect fake reports, summarize issues, and assist municipal authorities in prioritizing civic problems efficiently.
 
-## Problem Statement
+---
+
+## ✨ Key Features
+
+- 📸 AI Image Analysis
+- 🎤 Voice Complaint Submission
+- 🤖 Fake Report Detection
+- 🗺️ Community Heat Map
+- 👥 Community Verification
+- 📊 Live Complaint Tracking
+- 🌐 Multi-language Support
+- 🔥 Firebase Authentication
+- ⚡ Real-time Firestore Database
+
+---
+
+## 🛠️ Tech Stack
+
+- Google Gemini API
+- Firebase
+- Firestore
+- TypeScript
+- HTML
+- CSS
+- JavaScript
+
+---
+
+## 🌍 Google Technologies Used
+
+- Google Gemini API
+- Firebase Authentication
+- Firestore Database
+- Google AI Studio
+
+---
+
+## 🎯 Problem Statement
 
 Community Hero – Hyperlocal Problem Solver
 
-## Features
+---
 
-* AI-powered civic issue reporting
-* Image-based issue detection using Gemini AI
-* Voice complaint submission
-* Fake and spam report detection
-* Community verification system
-* Live civic issue heatmap
-* Complaint tracking with status updates
-* AI-generated issue summaries
-* Multi-language support
-* Firebase Authentication
-* Real-time Firestore database
+## 🚀 Live Demo
 
-## Tech Stack
+(Add your deployed application link here)
 
-* Google Gemini API
-* Firebase Authentication
-* Cloud Firestore
-* Firebase Hosting
-* TypeScript
-* HTML
-* CSS
-* JavaScript
+---
 
-## Google Technologies Used
+## 👩‍💻 Developed By
 
-* Gemini API
-* Firebase Authentication
-* Firestore Database
-* Google AI Studio
-
-## Live Demo
-
-Paste your deployed application link here.
-
-## Repository
-
-This repository contains the complete source code and documentation for the CiviQ hackathon project.
+Riya
 
