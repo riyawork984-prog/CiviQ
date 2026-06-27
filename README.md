@@ -49,7 +49,7 @@ Community Hero – Hyperlocal Problem Solver
 
 ## 🚀 Live Demo
 
-(Add your deployed application link here)
+https://civiq-956103074413.asia-southeast1.run.app
 
 ---
 
